@@ -2,22 +2,25 @@
   <canvas id="canvas" class="canvas" (mousemove)="preview($event)"></canvas>
   <div *ngIf="selectedTile" class="info">
     <p>Map Info</p>
-    <p> --- </p>
+    <p>---</p>
 
     <p>Current Year</p>
-    <p>{{canvasService.atlas.year}}</p>
+    <p>{{ canvasService.atlas.year }}</p>
 
     <p>Active Kingdoms:</p>
     <ul>
       <li *ngFor="let kingdom of canvasService.atlas.kingdoms">
-        {{ kingdom.name }}, (Founded: {{kingdom.startYear}})
+        {{ kingdom.name }}, (Founded: {{ kingdom.startYear }})
       </li>
     </ul>
 
     <p>Dead Kingdoms:</p>
     <ul>
       <div *ngFor="let kingdom of canvasService.atlas.deadKingdoms">
-        <li *ngIf="kingdom.endYear - kingdom.startYear > 10">{{ kingdom.name }}, (Years: {{kingdom.startYear}} - {{kingdom.endYear}})</li>
+        <li *ngIf="kingdom.endYear - kingdom.startYear > 10">
+          {{ kingdom.name }}, (Years: {{ kingdom.startYear }} -
+          {{ kingdom.endYear }})
+        </li>
       </div>
     </ul>
 
@@ -43,16 +46,21 @@
     <p>{{ selectedTile.settlementType }}</p>
 
     <p>Current Kingdom</p>
-    <p>{{ selectedTile.getCurrentKingdom()?.name }} (Acquired: {{selectedTile.yearAquired}})</p>
+    <p>
+      {{ selectedTile.getCurrentKingdom()?.name }} (Acquired:
+      {{ selectedTile.yearAquired }})
+    </p>
 
     <p>Contests</p>
     <p *ngIf="selectedTile.kingdomHistory.length > 0">
-      {{ barGraphChar.repeat(selectedTile.kingdomHistory.length - 1)}}
+      {{ barGraphChar.repeat(selectedTile.kingdomHistory.length - 1) }}
     </p>
 
     <p>Past Kingdoms</p>
     <ul>
-      <li *ngFor="let kingdom of selectedTile.kingdomHistory">{{kingdom.name}}</li>
+      <li *ngFor="let kingdom of selectedTile.kingdomHistory">
+        {{ kingdom.name }}
+      </li>
     </ul>
   </div>
 

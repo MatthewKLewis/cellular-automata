@@ -11,6 +11,7 @@ export class CanvasService {
   atlas: Atlas;
   canvas: any;
   context: any;
+  advances: number = 0
 
   constructor() {
     this.atlas = new Atlas(TOTAL);
@@ -26,8 +27,11 @@ export class CanvasService {
     this.render();
 
     setInterval(()=>{
-      this.atlas.advanceYear(1)
-      this.render()
+      if (this.advances < 100) {
+        this.advances++;
+        this.atlas.advanceYear(1)
+        this.render()
+      }
     }, 200)
   }
 

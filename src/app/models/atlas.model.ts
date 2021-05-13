@@ -31,7 +31,7 @@ const CSS_COLOR_NAMES = [
   '540',
   '054',
 ];
-const CONSONANTS = 'bcccdddfffghjklmnpqrrssstttvwxz';
+const CONSONANTS = 'bcccdddfffghjklmnpqrrssstttvwxz\'';
 const VOWELS = 'aaaeeeiouy';
 const C_ARRAY = CONSONANTS.split('');
 const V_ARRAY = VOWELS.split('');
@@ -83,6 +83,7 @@ export class Tile {
   collapse() {
     this.kingdomPreHistory.push(this.kingdomHistory);
     this.kingdomHistory = [];
+    this.settlementType += ' ruins'
   }
 
   getCurrentKingdom() {
