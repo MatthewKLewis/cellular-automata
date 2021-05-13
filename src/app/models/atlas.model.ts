@@ -70,7 +70,7 @@ export class Tile {
   yearAquired: number = -1;
   kingdomPreHistory: Array<Array<Kingdom>> = [];
   kingdomHistory: Array<Kingdom>;
-  settlementType: string = 'none';
+  settlementType: string = 'sea';
 
   constructor(x: number, y: number, i: number) {
     this.x = x;
@@ -97,7 +97,7 @@ export class Tile {
   generateSettlementType() {
     var randTen = Math.floor(Math.random() * 10) + 1;
     if (randTen < 5) {
-      this.settlementType = 'fields';
+      this.settlementType = 'field';
     } else if (randTen == 6) {
       this.settlementType = 'hamlet';
     } else if (randTen == 7) {
@@ -144,7 +144,7 @@ export class Atlas {
     this.addKingdom();
 
     //Time Marches On...
-    this.advanceYear(25);
+    this.advanceYear(400);
   }
 
   advanceYear(repeats: number) {

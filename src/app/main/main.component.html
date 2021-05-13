@@ -1,5 +1,7 @@
 <div class="wrapper">
-  <canvas id="canvas" class="canvas" (mousemove)="preview($event)"></canvas>
+
+  <canvas id="canvas" class="canvas" (mousemove)="preview($event)" (click)="canvasClick($event)"></canvas>
+
   <div *ngIf="selectedTile" class="info">
     <p>Map Info</p>
     <p>---</p>
@@ -62,6 +64,11 @@
         {{ kingdom.name }}
       </li>
     </ul>
+  </div>
+
+  <div *ngIf="clickedTile" class="info">
+    <p>Clicked Tile</p>
+    <p>A {{clickedTile.settlementType}} in the {{clickedTile.getCurrentKingdom()?.name || 'wild'}}</p>
   </div>
 
   <!-- <div>

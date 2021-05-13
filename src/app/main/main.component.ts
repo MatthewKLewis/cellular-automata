@@ -12,6 +12,7 @@ export class MainComponent implements OnInit {
   barGraphChar: string = '|'
 
   selectedTile!: Tile
+  clickedTile!: Tile
   cnv: any;
   ctx: any
 
@@ -30,6 +31,14 @@ export class MainComponent implements OnInit {
     var mouseX = evt.clientX - rect.left
     var mouseY = evt.clientY - rect.top
     this.selectedTile = <Tile>this.canvasService.getMouseoverTile(mouseX, mouseY)
+  }
+
+  canvasClick(evt:any) {
+    var rect = this.cnv.getBoundingClientRect();
+    var mouseX = evt.clientX - rect.left
+    var mouseY = evt.clientY - rect.top
+    this.clickedTile = <Tile>this.canvasService.getMouseoverTile(mouseX, mouseY)
+    console.log(this.clickedTile)
   }
 
 }

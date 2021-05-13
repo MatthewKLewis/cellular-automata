@@ -26,13 +26,13 @@ export class CanvasService {
 
     this.render();
 
-    setInterval(()=>{
-      if (this.advances < 100) {
-        this.advances++;
-        this.atlas.advanceYear(1)
-        this.render()
-      }
-    }, 200)
+    // setInterval(()=>{
+    //   if (this.advances < 100) {
+    //     this.advances++;
+    //     this.atlas.advanceYear(1)
+    //     this.render()
+    //   }
+    // }, 200)
   }
 
   getMouseoverTile(x: number, y: number) {

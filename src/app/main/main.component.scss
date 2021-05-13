@@ -1,7 +1,7 @@
 .wrapper {
     margin: 20px;
     display: grid;
-    grid-template-columns: 600px 600px;
+    grid-template-columns: 600px 600px auto;
     column-gap: 4px;
 }
 
