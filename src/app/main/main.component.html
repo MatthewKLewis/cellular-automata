@@ -1,6 +1,6 @@
 <div class="wrapper">
   <canvas id="canvas" class="canvas" (mousemove)="preview($event)"></canvas>
-  <div class="info" *ngIf="this.selectedTile">
+  <div *ngIf="selectedTile" class="info">
     <p>Map Info</p>
     <p> --- </p>
 
@@ -16,9 +16,9 @@
 
     <p>Dead Kingdoms:</p>
     <ul>
-      <li *ngFor="let kingdom of canvasService.atlas.deadKingdoms">
-        {{ kingdom.name }}, (Ended: {{kingdom.endYear}})
-      </li>
+      <div *ngFor="let kingdom of canvasService.atlas.deadKingdoms">
+        <li *ngIf="kingdom.endYear - kingdom.startYear > 10">{{ kingdom.name }}, (Years: {{kingdom.startYear}} - {{kingdom.endYear}})</li>
+      </div>
     </ul>
 
     <p>--------------------</p>
@@ -39,6 +39,9 @@
     <p>--------------------</p>
     <p>--------------------</p>
 
+    <p>Tile</p>
+    <p>{{ selectedTile.settlementType }}</p>
+
     <p>Current Kingdom</p>
     <p>{{ selectedTile.getCurrentKingdom()?.name }} (Acquired: {{selectedTile.yearAquired}})</p>
 
@@ -46,6 +49,11 @@
     <p *ngIf="selectedTile.kingdomHistory.length > 0">
       {{ barGraphChar.repeat(selectedTile.kingdomHistory.length - 1)}}
     </p>
+
+    <p>Past Kingdoms</p>
+    <ul>
+      <li *ngFor="let kingdom of selectedTile.kingdomHistory">{{kingdom.name}}</li>
+    </ul>
   </div>
 
   <!-- <div>

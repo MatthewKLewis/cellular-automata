@@ -1,5 +1,5 @@
 .wrapper {
-    margin: 60px;
+    margin: 20px;
     display: grid;
     grid-template-columns: 600px 600px;
     column-gap: 4px;
@@ -14,7 +14,7 @@
     overflow: scroll;
     border: 1px solid grey;
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 200px auto;
     padding: 10px;
     column-gap: 4px;
 

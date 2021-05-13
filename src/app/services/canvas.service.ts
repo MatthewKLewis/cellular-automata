@@ -28,7 +28,7 @@ export class CanvasService {
     setInterval(()=>{
       this.atlas.advanceYear(1)
       this.render()
-    }, 1000)
+    }, 200)
   }
 
   getMouseoverTile(x: number, y: number) {

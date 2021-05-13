@@ -9,7 +9,7 @@ for (let i = 0; i < C_ARRAY.length; i++) {
     ABJAD.push(C_ARRAY[i] + V_ARRAY[j]);
   }
 }
-const STATE_NAMES = ['kingdom of ', 'principality of ', 'empire of ', 'realm of ', 'dominion of ', 'province of ', 'palatinate of ', 'duchy of ', 'fiefdom of ', 'protectorate of ']
+const STATE_NAMES = ['kingdom of ', 'principality of ', 'realm of ', 'dominion of ', 'province of ', 'palatinate of ', 'duchy of ', 'fiefdom of ', 'protectorate of ']
 
 export class Kingdom {
   startYear: number;
@@ -38,6 +38,7 @@ export class Tile {
   elevation = 1
   yearAquired: number = -1
   kingdomHistory: Array<Kingdom>;
+  settlementType: string = 'none'
 
   constructor(x: number, y: number, i: number) {
     this.x = x;
@@ -47,12 +48,34 @@ export class Tile {
     this.kingdomHistory = [];
   }
 
+  collapse() {
+    this.kingdomHistory = []
+  }
+
   getCurrentKingdom() {
     return this.kingdomHistory[this.kingdomHistory.length - 1];
   }
 
   getOpenRange() {
     return this.kingdomHistory.length == 0;
+  }
+
+  generateSettlementType() {
+    var randTen = Math.floor(Math.random() * 10) + 1
+    if (randTen < 5) {
+      this.settlementType = 'fields'
+    } else if (randTen == 6) {
+      this.settlementType = 'hamlet'
+    } else if (randTen == 7) {
+      this.settlementType = 'village'
+    } else if (randTen == 8) {
+      this.settlementType = 'town'
+    } else if (randTen == 9) {
+      this.settlementType = 'city'
+    } else if (randTen == 10) {
+      this.settlementType = 'metropolis'
+    }
+    
   }
 }
 
@@ -61,6 +84,7 @@ export class Atlas {
   tiles: Array<Tile>;
   year: number;
   lastKingdomAddedYear: number = 0
+  lastKingdomFellYear: number = 0
   kingdoms: Array<Kingdom>;
   deadKingdoms: Array<Kingdom>;
 
@@ -85,19 +109,23 @@ export class Atlas {
     this.addKingdom(); this.addKingdom(); this.addKingdom();
 
     //Time Marches On...
-    this.advanceYear(200);
+    this.advanceYear(25);
   }
 
   advanceYear(repeats: number) {
     for (let i = 0; i < repeats; i++) {
-      var incrementYear = 10 + Math.floor(Math.random() * 10);
+      var incrementYear = 5 + Math.floor(Math.random() * 5);
       this.year += incrementYear;
-      if (this.year > this.lastKingdomAddedYear + 400) {
+      if (this.year > this.lastKingdomAddedYear + 100) {
         this.addKingdom()
         this.lastKingdomAddedYear = this.year
       }
-      this.expandKingdoms();
       this.cleanUpDeadKingdoms();
+      if (this.year > this.lastKingdomFellYear + 400) {
+        this.killRandomKingdom()
+        this.lastKingdomFellYear = this.year
+      }
+      this.expandKingdoms();
     }
   }
 
@@ -186,6 +214,7 @@ export class Atlas {
               kingdomTile.getCurrentKingdom().name)
         ) {
           tile.yearAquired = this.year
+          tile.generateSettlementType()
           tile.kingdomHistory.push(kingdomTile.getCurrentKingdom());
         }
       });
@@ -223,6 +252,22 @@ export class Atlas {
     //left tile
     surroundingTiles[3] = this.getTileAtCoordinates(tile.x - 1, tile.y);
     return surroundingTiles;
+  }
+
+  killRandomKingdom() {
+    //get a random kingdom
+    var dyingKingdom = this.kingdoms[Math.floor(Math.random() * this.kingdoms.length)]
+
+    //iterate over and find the empire's tiles
+    this.tiles.forEach((tile: Tile)=>{
+      if (tile.getCurrentKingdom() && tile.getCurrentKingdom().name == dyingKingdom.name) {
+        tile.collapse()
+      }
+    })
+
+    //take a random kingdom from this.kingdoms, splice it out, put it into deadKingdoms, 
+    //iterate over tiles - any tiles that return that kingdom as the active kingdom
+    //will have a new NONE kingdom added to the kingdomHistory
   }
 
   smooth(repeats: number) {
