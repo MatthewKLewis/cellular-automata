@@ -9,15 +9,17 @@ for (let i = 0; i < C_ARRAY.length; i++) {
     ABJAD.push(C_ARRAY[i] + V_ARRAY[j]);
   }
 }
+const STATE_NAMES = ['kingdom of ', 'principality of ', 'empire of ', 'realm of ', 'dominion of ', 'province of ', 'palatinate of ', 'duchy of ', 'fiefdom of ', 'protectorate of ']
 
 export class Kingdom {
   startYear: number;
+  endYear: number = -1;
   name: string;
   color: string = 'red';
 
   constructor(start: number, x: number, y: number) {
     this.startYear = start;
-    this.name = '';
+    this.name = STATE_NAMES[Math.floor(Math.random() * STATE_NAMES.length)];
     for (let i = 0; i < Math.floor(Math.random() * 3) + 2; i++) {
       this.name += ABJAD[Math.floor(Math.random() * ABJAD.length)];
     }
@@ -54,18 +56,20 @@ export class Tile {
   }
 }
 
-export class Map {
+export class Atlas {
   sideLength: number;
   tiles: Array<Tile>;
   year: number;
   lastKingdomAddedYear: number = 0
   kingdoms: Array<Kingdom>;
+  deadKingdoms: Array<Kingdom>;
 
   constructor(side: number) {
     this.year = 0;
     this.sideLength = side;
     this.tiles = [];
     this.kingdoms = [];
+    this.deadKingdoms = [];
 
     //Initialize Tiles
     for (let i = 0; i < side; i++) {
@@ -81,18 +85,19 @@ export class Map {
     this.addKingdom(); this.addKingdom(); this.addKingdom();
 
     //Time Marches On...
-    this.advanceYear(50);
+    this.advanceYear(200);
   }
 
   advanceYear(repeats: number) {
     for (let i = 0; i < repeats; i++) {
       var incrementYear = 10 + Math.floor(Math.random() * 10);
       this.year += incrementYear;
-      if (this.year > this.lastKingdomAddedYear + 200) {
+      if (this.year > this.lastKingdomAddedYear + 400) {
         this.addKingdom()
         this.lastKingdomAddedYear = this.year
       }
       this.expandKingdoms();
+      this.cleanUpDeadKingdoms();
     }
   }
 
@@ -113,6 +118,30 @@ export class Map {
         }
       }
     })
+  }
+
+  cleanUpDeadKingdoms() {
+    var tempKingdomMap: Map<Kingdom,boolean> = new Map()
+    this.kingdoms.forEach((kingdom: Kingdom)=>{
+      tempKingdomMap.set(kingdom, false)
+    })
+    this.tiles.forEach((tile: Tile)=>{
+      if (tile.getCurrentKingdom()) {
+        tempKingdomMap.set(tile.getCurrentKingdom(), true)
+      }
+    })
+    var stillAliveKingdoms: Array<Kingdom> = []
+    var deadKingdoms: Array<Kingdom> = []
+    tempKingdomMap.forEach((bool: boolean, kingdom: Kingdom)=>{
+      if (bool) {
+        stillAliveKingdoms.push(kingdom)
+      } else {
+        kingdom.endYear = this.year
+        deadKingdoms.push(kingdom)
+      }
+    })
+    this.kingdoms = stillAliveKingdoms
+    this.deadKingdoms.push(...deadKingdoms)
   }
 
   elevate(repeats:number) {

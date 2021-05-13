@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Tile } from '../models/map.model';
+import { Tile } from '../models/atlas.model';
 import { CanvasService } from '../services/canvas.service';
 
 @Component({
