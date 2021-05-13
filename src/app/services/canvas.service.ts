@@ -25,6 +25,11 @@ export class CanvasService {
     this.canvas.height = TOTAL * PIXELS;
 
     this.render()
+    
+    // setInterval(()=>{
+    //   this.map.advanceYear(1)
+    //   this.render()
+    // }, 300)
   }
 
   getMouseoverTile(x:number,y:number) {
@@ -38,18 +43,31 @@ export class CanvasService {
     this.map.tiles.forEach((tile: Tile)=>{
 
       if (tile.kingdomHistory.length > 0) {
-        this.context.fillStyle = tile.getCurrentKingdom().color
-        
+
+        this.context.fillStyle = '#' + tile.getCurrentKingdom().color
+
+        if (tile.elevation > 3) {
+          this.context.fillStyle = this.returnColorForKingdomTile(tile)
+        }
+
       } else {
         if (tile.land) {
           this.context.fillStyle = '#' + tile.elevation.toString().repeat(3)
         } else {
-          this.context.fillStyle = 'blue'
+          this.context.fillStyle = 'darkblue'
         }
       }
 
 
       this.context.fillRect(tile.x * PIXELS, tile.y * PIXELS, PIXELS, PIXELS)
     })
+  }
+
+  returnColorForKingdomTile(tile: Tile): string {
+    var arr: Array<any> = tile.getCurrentKingdom().color.split('')
+          arr.forEach((char:string, index:number)=>{
+            arr[index] = Math.min(parseInt(char) + tile.elevation, 9)
+          })
+    return '#' + arr.join('')
   }
 }

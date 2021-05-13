@@ -1,135 +1,4 @@
-const CSS_COLOR_NAMES = [
-  'AliceBlue',
-  'Aqua',
-  'Aquamarine',
-  'Azure',
-  'Bisque',
-  'Blue',
-  'BlueViolet',
-  'Brown',
-  'BurlyWood',
-  'CadetBlue',
-  'Chartreuse',
-  'Chocolate',
-  'Coral',
-  'CornflowerBlue',
-  'Crimson',
-  'Cyan',
-  'DarkCyan',
-  'DarkGoldenRod',
-  'DarkGray',
-  'DarkGrey',
-  'DarkGreen',
-  'DarkKhaki',
-  'DarkMagenta',
-  'DarkOliveGreen',
-  'DarkOrange',
-  'DarkOrchid',
-  'DarkRed',
-  'DarkSalmon',
-  'DarkSeaGreen',
-  'DarkSlateBlue',
-  'DarkSlateGray',
-  'DarkSlateGrey',
-  'DarkTurquoise',
-  'DarkViolet',
-  'DeepPink',
-  'DeepSkyBlue',
-  'DimGray',
-  'DimGrey',
-  'DodgerBlue',
-  'FireBrick',
-  'FloralWhite',
-  'ForestGreen',
-  'Fuchsia',
-  'GhostWhite',
-  'Gold',
-  'GoldenRod',
-  'Gray',
-  'Grey',
-  'Green',
-  'GreenYellow',
-  'HotPink',
-  'IndianRed',
-  'Indigo',
-  'Khaki',
-  'Lavender',
-  'LavenderBlush',
-  'LawnGreen',
-  'LemonChiffon',
-  'LightBlue',
-  'LightCoral',
-  'LightGray',
-  'LightGrey',
-  'LightPink',
-  'LightSalmon',
-  'LightSeaGreen',
-  'LightSkyBlue',
-  'LightSlateGray',
-  'LightSlateGrey',
-  'LightSteelBlue',
-  'Lime',
-  'LimeGreen',
-  'Magenta',
-  'Maroon',
-  'MediumAquaMarine',
-  'MediumBlue',
-  'MediumOrchid',
-  'MediumPurple',
-  'MediumSeaGreen',
-  'MediumSlateBlue',
-  'MediumSpringGreen',
-  'MediumTurquoise',
-  'MediumVioletRed',
-  'MidnightBlue',
-  'MintCream',
-  'MistyRose',
-  'Moccasin',
-  'Navy',
-  'Olive',
-  'OliveDrab',
-  'Orange',
-  'OrangeRed',
-  'Orchid',
-  'PaleGoldenRod',
-  'PaleGreen',
-  'PaleTurquoise',
-  'PaleVioletRed',
-  'PeachPuff',
-  'Peru',
-  'Pink',
-  'Plum',
-  'PowderBlue',
-  'Purple',
-  'RebeccaPurple',
-  'Red',
-  'RosyBrown',
-  'RoyalBlue',
-  'SaddleBrown',
-  'Salmon',
-  'SandyBrown',
-  'SeaGreen',
-  'SeaShell',
-  'Sienna',
-  'Silver',
-  'SkyBlue',
-  'SlateBlue',
-  'SlateGray',
-  'SlateGrey',
-  'Snow',
-  'SpringGreen',
-  'SteelBlue',
-  'Tan',
-  'Teal',
-  'Thistle',
-  'Tomato',
-  'Turquoise',
-  'Violet',
-  'Yellow',
-  'YellowGreen',
-];
-
-
+const CSS_COLOR_NAMES = ['909', '099', '900', '009', '090']
 const CONSONANTS = 'bcccdddfffghjklmnpqrrssstttvwxz';
 const VOWELS = 'aaaeeeiouy';
 const C_ARRAY = CONSONANTS.split('');
@@ -206,14 +75,13 @@ export class Map {
     }
     this.smooth(5);
     this.elevate(8)
+    this.addHeightNoise(1)
 
     //Three Kingdoms Start at Year Zero
-    this.addKingdom();
-    this.addKingdom();
-    this.addKingdom();
+    this.addKingdom(); this.addKingdom(); this.addKingdom();
 
     //Time Marches On...
-    this.advanceYear(200);
+    this.advanceYear(50);
   }
 
   advanceYear(repeats: number) {
@@ -233,6 +101,18 @@ export class Map {
     var tempKingdom = new Kingdom(this.year, tempTile.x, tempTile.y);
     this.kingdoms.push(tempKingdom);
     tempTile.kingdomHistory.push(tempKingdom);
+  }
+
+  addHeightNoise(repeats:number) {
+    this.tiles.forEach((tile: Tile)=>{
+      if (tile.land && tile.elevation >= 2 && tile.elevation < 9) {
+        if (Math.random() > .5) {
+          tile.elevation++;
+        } else {
+          tile.elevation--;
+        }
+      }
+    })
   }
 
   elevate(repeats:number) {
