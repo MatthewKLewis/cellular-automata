@@ -1,0 +1,28 @@
+.wrapper {
+    margin: 60px;
+    display: grid;
+    grid-template-columns: 600px 400px;
+    column-gap: 4px;
+}
+
+.canvas {
+    border: 1px solid grey;
+}
+
+.info {
+    height: 600px;
+    overflow: scroll;
+    border: 1px solid grey;
+    display: grid;
+    grid-template-columns: auto auto;
+    padding: 10px;
+    column-gap: 4px;
+
+    ul {
+        padding: 0px
+    }
+
+    li {
+        text-decoration: none;
+    }
+}

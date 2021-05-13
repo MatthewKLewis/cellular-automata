@@ -1,0 +1,46 @@
+<div class="wrapper">
+  <canvas id="canvas" class="canvas" (mousemove)="preview($event)"></canvas>
+  <div class="info" *ngIf="this.selectedTile">
+    <p>Map Info</p>
+    <p> --- </p>
+
+    <p>Current Year</p>
+    <p>{{canvasService.map.year}}</p>
+
+    <p>Kingdoms:</p>
+    <ul>
+      <li *ngFor="let kingdom of canvasService.map.kingdoms">
+        {{ kingdom.name }}, (Founded: {{kingdom.startYear}})
+      </li>
+    </ul>
+
+    <p>--------------------</p>
+    <p>--------------------</p>
+
+    <p>Tile Index</p>
+    <p>{{ selectedTile.i }}</p>
+
+    <p>Coordinates</p>
+    <p>{{ selectedTile.x }}, {{ selectedTile.y }}</p>
+
+    <p>Land</p>
+    <p>{{ selectedTile.land }}</p>
+
+    <p>Elevation</p>
+    <p>{{ selectedTile.elevation }}</p>
+
+    <p>--------------------</p>
+    <p>--------------------</p>
+
+    <p>Current Kingdom</p>
+    <p>{{ selectedTile.getCurrentKingdom()?.name }} (Acquired: {{selectedTile.yearAquired}})</p>
+
+    <p>Kingdom Color</p>
+    <p>{{ selectedTile.getCurrentKingdom()?.color }}</p>
+
+    <p>Contests</p>
+    <p *ngIf="selectedTile.kingdomHistory.length > 0">
+      {{ barGraphChar.repeat(selectedTile.kingdomHistory.length - 1)}}
+    </p>
+  </div>
+</div>
