@@ -68,7 +68,7 @@
 
   <div *ngIf="clickedTile" class="info">
     <p>Clicked Tile</p>
-    <p>A {{clickedTile.settlementType}} in the {{clickedTile.getCurrentKingdom()?.name || 'wild'}}</p>
+    <p>A {{clickedTile.getCurrentKingdom()?.inhabitantType}} {{clickedTile.settlementType}} in the {{clickedTile.getCurrentKingdom()?.name || 'wild'}}</p>
   </div>
 
   <!-- <div>

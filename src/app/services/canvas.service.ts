@@ -27,7 +27,7 @@ export class CanvasService {
     this.render();
 
     // setInterval(()=>{
-    //   if (this.advances < 100) {
+    //   if (this.advances < 10000) {
     //     this.advances++;
     //     this.atlas.advanceYear(1)
     //     this.render()
@@ -49,7 +49,8 @@ export class CanvasService {
         if (tile.elevation > 3) {
           this.context.fillStyle = this.returnColorForKingdomTile(tile);
         }
-      } else {
+      } 
+      else {
         if (tile.land) {
           this.context.fillStyle = '#' + tile.elevation.toString().repeat(3);
         } else {

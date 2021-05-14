@@ -9,7 +9,7 @@ const STATE_NAMES = [
   'fiefdom of ',
   'protectorate of ',
 ];
-const CSS_COLOR_NAMES = [
+const COLOR_NAMES = [
   '909',
   '099',
   '990',
@@ -31,6 +31,7 @@ const CSS_COLOR_NAMES = [
   '540',
   '054',
 ];
+const RACE_NAMES = ['human', 'centaur', 'gorilla-folk', 'sentient moss', 'yeti', 'android']
 const CONSONANTS = 'bcccdddfffghjklmnpqrrssstttvwxz\'';
 const VOWELS = 'aaaeeeiouy';
 const C_ARRAY = CONSONANTS.split('');
@@ -47,6 +48,7 @@ export class Kingdom {
   endYear: number = -1;
   name: string;
   color: string = 'red';
+  inhabitantType: string = 'human'
 
   constructor(start: number, x: number, y: number) {
     this.startYear = start;
@@ -54,8 +56,8 @@ export class Kingdom {
     for (let i = 0; i < Math.floor(Math.random() * 3) + 2; i++) {
       this.name += ABJAD[Math.floor(Math.random() * ABJAD.length)];
     }
-    this.color =
-      CSS_COLOR_NAMES[Math.floor(Math.random() * CSS_COLOR_NAMES.length)];
+    this.color = COLOR_NAMES[Math.floor(Math.random() * COLOR_NAMES.length)];
+    this.inhabitantType = RACE_NAMES[Math.floor(Math.random() * RACE_NAMES.length)];
 
     return this;
   }
@@ -97,7 +99,7 @@ export class Tile {
   generateSettlementType() {
     var randTen = Math.floor(Math.random() * 10) + 1;
     if (randTen < 5) {
-      this.settlementType = 'field';
+      this.settlementType = 'inn';
     } else if (randTen == 6) {
       this.settlementType = 'hamlet';
     } else if (randTen == 7) {
